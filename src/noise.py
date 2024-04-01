@@ -57,11 +57,15 @@ class CosineScheduler():
         return self.apply_noise(img, timestep)
     
     def apply_noise(self, img, timestep):
-        """Apply noise to image."""
+        """Apply noise to image.
+        
+        Returns:
+            Image tensor with noise
+            Noise tensor for loss calculation"""
         noise = self._gaussian_noise(img.shape)
         sqrt_alpha = self._obtain(self.alphas_cumprod_sqrt, timestep, img.shape)
         sqrt_one_minus_alpha = self._obtain(self.alphas_cumprod_min_sqrt, timestep, img.shape)
-        return sqrt_alpha * img + sqrt_one_minus_alpha * noise
+        return sqrt_alpha * img + sqrt_one_minus_alpha * noise, noise
 
     
     def _obtain(self, source, timestep, target_shape):
