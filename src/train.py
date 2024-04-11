@@ -35,8 +35,10 @@ def train_diffusion(
         model.train()
         train_loss = 0
         for img, time in train_loader:
-            img, time = img.to(device), time.to(device)
             img, noise = scheduler(img, time)
+            
+            img = img.to(device)
+            time = time.to(device)
             noise = noise.to(device)
             optimizer.zero_grad()
             loss = mse_loss(model(img, time), img)
@@ -50,9 +52,12 @@ def train_diffusion(
             model.eval()
             val_loss = 0
             for img, time in val_loader:
-                img, time = img.to(device), time.to(device)
                 img, noise = scheduler(img, time)
+                
+                img = img.to(device)
+                time = time.to(device)
                 noise = noise.to(device)
+
                 loss = mse_loss(model(img, time), img)
                 val_loss += loss.item()
 
@@ -82,8 +87,10 @@ def train_diffusion(
             model.eval()
             test_loss = 0
             for img, time in test_loader:
-                img, time = img.to(device), time.to(device)
                 img, noise = scheduler(img, time)
+                
+                img = img.to(device)
+                time = time.to(device)
                 noise = noise.to(device)
                 loss = mse_loss(model(img, time), img)
                 test_loss += loss.item()

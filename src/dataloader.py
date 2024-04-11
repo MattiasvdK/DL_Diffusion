@@ -7,10 +7,10 @@ import os
 from noise import CosineScheduler
 import PIL
 
-def get_data_loaders(train_dir, val_dir, test_dir, batch_size, shuffle=True):
-    train_dataset = CocoDataset(train_dir)
-    val_dataset = CocoDataset(val_dir)
-    test_dataset = CocoDataset(test_dir)
+def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=1000, shuffle=True):
+    train_dataset = CocoDataset(train_dir, timesteps)
+    val_dataset = CocoDataset(val_dir, timesteps)
+    test_dataset = CocoDataset(test_dir, timesteps)
 
     train_loader = tud.DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
     val_loader = tud.DataLoader(val_dataset, batch_size=batch_size, shuffle=shuffle)
@@ -24,7 +24,7 @@ def get_data_loader(directory, batch_size, timesteps=1000, shuffle=True):
     return loader
 
 class CocoDataset(tud.Dataset):
-    def __init__(self, directory, timesteps, img_size=128, labels=None):
+    def __init__(self, directory, timesteps, img_size=256, labels=None):
         self.labels = labels
         self.dir = directory
         self.imgs = os.listdir(directory)
@@ -42,6 +42,7 @@ class CocoDataset(tud.Dataset):
 
     def __getitem__(self, index):
         img = PIL.Image.open(self.dir + '/' + self.imgs[index])
+        img = img.convert('RGB')
         # Transform the image and apply noise
         time = np.random.randint(0, self.timesteps)
         img = self.transform(img)
