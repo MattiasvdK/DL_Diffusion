@@ -19,7 +19,7 @@ cp /home4/$USER/DL_Diffusion $TMPDIR
 cd $TMPDIR
 
 # Run the training
-/home4/$USER/venvs/rizkienvs/bin/python3 python3 src/main.py
+/home4/$USER/venvs/rizkienvs/bin/python3 src/main.py
 
 mkdir -p /home4/$USER/QA_jobs/job_${SLURM_JOBID}
 tar czvf /home4/$USER/QA_jobs/job_${SLURM_JOBID}/results.tar.gz $TMPDIR/results
