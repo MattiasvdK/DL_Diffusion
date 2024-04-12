@@ -7,7 +7,7 @@
 #SBATCH --partition=gpu
 
 mkdir $TMPDIR/dataset
-mkdir -p $TMPDIR/results/log $TMPDIR/results/model
+mkdir -p $TMPDIR/results
 
 # Copy Dataset
 unzip /scratch/$USER/train2014.zip -d $TMPDIR/dataset
