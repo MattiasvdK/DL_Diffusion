@@ -19,8 +19,8 @@ def main():
         val_loader=val_loader,
         test_loader=test_loader,
         early_stopping=5,
-        log_path="/tmp/results/log/",
-        save_path="/tmp/results/model/",
+        log_path="/tmp/results/log/log",
+        save_path="/tmp/results/model/model",
     )
     
 if __name__ == "__main__":
