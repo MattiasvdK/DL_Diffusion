@@ -8,8 +8,8 @@ def main():
     model = UNet(in_channels=3, out_channels=3)
     train_loader, val_loader, test_loader = get_data_loaders(
         "/tmp/dataset/train2014/",
-        "/tmp/dataset/dataset/val2014/",
-        "/tmp/dataset/dataset/test2014/",
+        "/tmp/dataset/val2014/",
+        "/tmp/dataset/test2014/",
         batch_size=256,
         )
     train_diffusion(
