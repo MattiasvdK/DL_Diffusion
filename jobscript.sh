@@ -2,7 +2,7 @@
 #SBATCH --job-name=DL
 #SBATCH --output=DL.out
 #SBATCH --time=40:00:00
-#SBATCH --gpus-per-node=a100:1
+#SBATCH --gpus-per-node=2
 #SBATCH --mem=12GB
 #SBATCH --partition=gpu
 
