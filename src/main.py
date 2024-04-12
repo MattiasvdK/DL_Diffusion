@@ -18,6 +18,7 @@ def main():
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
+        early_stopping=5,
         log_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\logs\\log.csv",
         save_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model.pt",
     )

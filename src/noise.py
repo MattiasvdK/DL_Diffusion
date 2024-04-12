@@ -13,7 +13,7 @@ def cosine_schedule(timesteps, s=0.008):
     alphas = alphas / alphas[0]
     alphas = alphas[1:] / alphas[:-1]
     betas = 1 - alphas
-    return torch.clip(betas, 0, 0.999)
+    return torch.clip(betas, 0.001, 0.999)
 
 
 class NoiseSampler():
