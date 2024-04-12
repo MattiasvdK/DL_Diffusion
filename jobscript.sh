@@ -2,8 +2,8 @@
 #SBATCH --job-name=DL
 #SBATCH --output=DL.out
 #SBATCH --time=40:00:00
-#SBATCH --gpus-per-node=2
-#SBATCH --mem=12GB
+#SBATCH --gpus-per-node=1
+#SBATCH --mem=18GB
 #SBATCH --partition=gpu
 
 mkdir $TMPDIR/dataset
