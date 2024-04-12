@@ -65,7 +65,7 @@ def train_diffusion(
             model.eval()
             val_loss = 0
             
-            progress_bar_val = tqdm(range(val_loader))
+            progress_bar_val = tqdm(range(len(val_loader)))
             for img, time in val_loader:
                 img, noise = scheduler(img, time)
                 
@@ -108,7 +108,7 @@ def train_diffusion(
             model.eval()
             test_loss = 0
 
-            progress_bar_test = tqdm(range(test_loader))
+            progress_bar_test = tqdm(range(len(test_loader)))
 
             for img, time in test_loader:
                 img, noise = scheduler(img, time)

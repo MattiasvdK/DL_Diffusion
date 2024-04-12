@@ -10,7 +10,7 @@ def main():
         "/tmp/dataset/train2014/",
         "/tmp/dataset/val2014/",
         "/tmp/dataset/test2014/",
-        batch_size=64,
+        batch_size=128,
         )
     train_diffusion(
         model=model,
