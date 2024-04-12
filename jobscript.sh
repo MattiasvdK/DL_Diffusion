@@ -6,14 +6,20 @@
 #SBATCH --mem=12GB
 #SBATCH --partition=gpu
 
-mkdir -p $TMPDIR/results_DL/model_DL_train $TMPDIR/results_DL/model_DL_test 
+mkdir $TMPDIR/dataset
+mkdir -p $TMPDIR/results/log $TMPDIR/results/model
+
+# Copy Dataset
+unzip /scratch/$USER/train2014.zip -d $TMPDIR/dataset
+unzip /scratch/$USER/test2014.zip -d $TMPDIR/dataset
+unzip /scratch/$USER/val2014.zip -d $TMPDIR/dataset
 
 # Copy to TPMDIR
-cp /home4/$USER/DA_model/QA_DL_model.py $TMPDIR/results_DL
-cd $TMPDIR/results_DL
+cp /home4/$USER/DL_Diffusion $TMPDIR
+cd $TMPDIR
 
 # Run the training
-/home4/$USER/venvs/rizkienv/bin/python3 QA_DL_model.py 
+/home4/$USER/venvs/rizkienvs/bin/python3 python3 src/main.py
 
 mkdir -p /home4/$USER/QA_jobs/job_${SLURM_JOBID}
-tar czvf /home4/$USER/QA_jobs/job_${SLURM_JOBID}/results.tar.gz $TMPDIR/results_DL
+tar czvf /home4/$USER/QA_jobs/job_${SLURM_JOBID}/results.tar.gz $TMPDIR/results
