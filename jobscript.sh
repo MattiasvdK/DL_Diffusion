@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=DL
 #SBATCH --output=DL.out
-#SBATCH --time=40:00:00
+#SBATCH --time=30:00:00
 #SBATCH --gpus-per-node=1
-#SBATCH --mem=18GB
+#SBATCH --mem=12GB
 #SBATCH --partition=gpu
 
 mkdir $TMPDIR/dataset
