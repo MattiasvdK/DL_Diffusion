@@ -5,7 +5,7 @@ from dataloader import get_data_loaders
 
 
 def main():
-    model = UNet(out_channels=3)
+    model = UNet(in_channels=3, out_channels=3)
     train_loader, val_loader, test_loader = get_data_loaders(
         "D:\\datasets\\coco_2014\\train\\data",
         "D:\\datasets\\coco_2014\\validation\\data",
