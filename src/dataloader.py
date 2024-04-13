@@ -7,13 +7,13 @@ import os
 from noise import CosineScheduler
 import PIL
 
-def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=1000, shuffle=True):
+def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=500, shuffle=True):
     train_dataset = CocoDataset(train_dir, timesteps)
     val_dataset = CocoDataset(val_dir, timesteps)
     test_dataset = CocoDataset(test_dir, timesteps)
 
     # Subset of train dataset
-    train_size = int(0.7 * len(train_dataset))
+    train_size = int(0.5 * len(train_dataset))
 
     # Split the train dataset into training and validation subsets
     train_subset, remaining_subset = tud.random_split(train_dataset, [train_size, len(train_dataset) - train_size])
