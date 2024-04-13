@@ -24,7 +24,7 @@ def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=500, sh
 
     return train_loader, val_loader, test_loader
 
-def get_data_loader(directory, batch_size, timesteps=1000, shuffle=True):
+def get_data_loader(directory, batch_size, timesteps=500, shuffle=True):
     dataset = CocoDataset(directory, timesteps)
     loader = tud.DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
     return loader
