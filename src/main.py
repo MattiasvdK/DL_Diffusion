@@ -21,8 +21,8 @@ def main():
         val_loader=val_loader,
         test_loader=test_loader,
         early_stopping=5,
-        log_path="/tmp/results/log",
-        save_path="/tmp/results/model",
+        log_path="/tmp/results/log.csv",
+        save_path="/tmp/results/model.pt",
     )
     
 if __name__ == "__main__":
