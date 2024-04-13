@@ -13,8 +13,8 @@ def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=1000, s
     test_dataset = CocoDataset(test_dir, timesteps)
 
     train_loader = tud.DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
-    val_loader = tud.DataLoader(val_dataset, batch_size=batch_size, shuffle=shuffle)
-    test_loader = tud.DataLoader(test_dataset, batch_size=batch_size, shuffle=shuffle)
+    val_loader = tud.DataLoader(val_dataset, batch_size=1, shuffle=shuffle)
+    test_loader = tud.DataLoader(test_dataset, batch_size=1, shuffle=shuffle)
 
     return train_loader, val_loader, test_loader
 
