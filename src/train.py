@@ -42,7 +42,7 @@ def train_diffusion(
         model.train()
         train_loss = 0
         for img, time in train_loader:
-            img, noise = scheduler(img, time)
+            img, noise = scheduler.apply_noise(img, time)
             
             img = img.to(device)
             time = time.to(device)
@@ -67,7 +67,7 @@ def train_diffusion(
             
             progress_bar_val = tqdm(range(len(val_loader)))
             for img, time in val_loader:
-                img, noise = scheduler(img, time)
+                img, noise = scheduler.apply_noise(img, time)
                 
                 img = img.to(device)
                 time = time.to(device)
@@ -111,7 +111,7 @@ def train_diffusion(
             progress_bar_test = tqdm(range(len(test_loader)))
 
             for img, time in test_loader:
-                img, noise = scheduler(img, time)
+                img, noise = scheduler.apply_noise(img, time)
                 
                 img = img.to(device)
                 time = time.to(device)

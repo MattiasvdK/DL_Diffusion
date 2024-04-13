@@ -2,10 +2,12 @@ from train import train_diffusion
 from unet import UNet
 from noise import CosineScheduler
 from dataloader import get_data_loaders
+from model import SimpleUnet
 
 
 def main():
-    model = UNet(in_channels=3, out_channels=3)
+    model = SimpleUnet()
+    # model = UNet(in_channels=3, out_channels=3)
     train_loader, val_loader, test_loader = get_data_loaders(
         "/tmp/dataset/train2014/",
         "/tmp/dataset/val2014/",
@@ -14,7 +16,7 @@ def main():
         )
     train_diffusion(
         model=model,
-        scheduler=CosineScheduler(timesteps=1000),
+        scheduler=CosineScheduler(timesteps=500),
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
