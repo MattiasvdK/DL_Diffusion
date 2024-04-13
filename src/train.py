@@ -104,6 +104,8 @@ def train_diffusion(
         print(f'Validation Loss: {val_loss}', end='\n\n')
 
     if test_loader is not None:
+        model.load_state_dict(torch.load(save_path))
+
         with torch.no_grad():
             model.eval()
             test_loss = 0
