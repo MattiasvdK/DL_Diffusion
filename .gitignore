@@ -1,1 +1,12 @@
 dl_env
+.ipynb_checkpoints
+.virtual_documents
+archive
+coco2014
+log
+src/__pycache__
+model
+runs
+tmp
+coco2014.zip
+results.tar.gz

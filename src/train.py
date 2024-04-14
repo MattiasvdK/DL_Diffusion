@@ -5,7 +5,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm.auto import tqdm
 
 from dataloader import get_data_loaders
-from noise import CosineScheduler
+from scheduler import CosineScheduler
 
 
 
