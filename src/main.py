@@ -1,8 +1,14 @@
 from train import train_diffusion
 from unet import UNet
-from noise import CosineScheduler
+from scheduler import CosineScheduler
 from dataloader import get_data_loaders
 
+"""
+Sources:
+- https://huggingface.co/blog/annotated-diffusion
+- https://github.com/dome272/Diffusion-Models-pytorch
+- https://github.com/dome272/Diffusion-Models-pytorch
+"""
 
 def main():
     model = UNet(in_channels=3, out_channels=3)

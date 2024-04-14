@@ -1,34 +1,11 @@
 import numpy as np
 import torch
+from noise import NoiseSampler
 
 # https://huggingface.co/blog/annotated-diffusion
 
-# Cosine schedule function
 
-def cosine_schedule(timesteps, s=0.008):
-    # Cosine schedule from: `Improved Denoising Diffusion Probabilistic Models`
-    # Based on code from: https://huggingface.co/blog/annotated-diffusion
-    time = torch.linspace(0, timesteps, timesteps+1)
-    alphas = torch.cos((time / timesteps + s) / (1 + s) * (np.pi / 2))**2
-    alphas = alphas / alphas[0]
-    alphas = alphas[1:] / alphas[:-1]
-    betas = 1 - alphas
-    return torch.clip(betas, 0.001, 0.999)
-
-
-class NoiseSampler():
-    def __init__(self, timesteps, noise_schedule, device):
-        self.timesteps = timesteps
-        self.noise_schedule = noise_schedule
-        self.betas = noise_schedule(timesteps)
-
-    def __call__(self, x):
-        return self.sample_noise(x)
-    
-    def sample_noise(self, x):
-        pass
-
-
+# This class should be inhereting from NoiseSampler
 class CosineScheduler():
     """Scheduler for discrete temporal values in Diffusion Model training.
     """

@@ -3,7 +3,7 @@ from torch.nn.functional import mse_loss
 from torch.optim import Adam
 
 from dataloader import get_data_loaders
-from noise import CosineScheduler
+from scheduler import CosineScheduler
 
 
 
