@@ -4,7 +4,6 @@ import numpy as np
 import torchvision as tv
 import torchvision.transforms.v2 as tfv2
 import os
-from noise import CosineScheduler
 import PIL
 
 def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=1000, shuffle=True):
