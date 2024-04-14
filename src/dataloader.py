@@ -12,20 +12,14 @@ def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=1000, s
     test_dataset = CocoDataset(test_dir, timesteps)
     
     # Determine the number of samples to use for training (60% of the total)
-    # train_size = int(0.5 * len(train_dataset))
+    train_size = int(0.7 * len(train_dataset))
 
     # Split the train dataset into training and validation subsets
-    # train_subset, train_remaining_subset = tud.random_split(train_dataset, [train_size, len(train_dataset) - train_size])
-
-    val_size = int(0.2 * len(val_dataset))
-    val_subset, val_remaining_subset = tud.random_split(val_dataset, [val_size, len(val_dataset) - val_size])
-    
-    test_size = int(0.2 * len(test_dataset))
-    test_subset, test_remaining_subset = tud.random_split(test_dataset, [test_size, len(test_dataset) - test_size])
+    train_subset, train_remaining_subset = tud.random_split(train_dataset, [train_size, len(train_dataset) - train_size])
 
     train_loader = tud.DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
-    val_loader = tud.DataLoader(val_subset, batch_size=1, shuffle=shuffle)
-    test_loader = tud.DataLoader(test_subset, batch_size=1, shuffle=shuffle)
+    val_loader = tud.DataLoader(val_dataset, batch_size=1, shuffle=shuffle)
+    test_loader = tud.DataLoader(test_dataset, batch_size=1, shuffle=shuffle)
 
     return train_loader, val_loader, test_loader
 
