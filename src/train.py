@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from torch.nn.functional import mse_loss
 from torch.optim import Adam
 
@@ -13,6 +14,7 @@ def train_diffusion(
         train_loader,
         val_loader,
         test_loader=None,
+        timesteps=1000,
         epochs=100,
         early_stopping=10,
         optimizer=Adam,
@@ -34,14 +36,18 @@ def train_diffusion(
     for epoch in range(epochs):
         model.train()
         train_loss = 0
-        for img, time in train_loader:
+        for img, label in train_loader:
+            time = get_time(timesteps, len(img))
+            
             img, noise = scheduler(img, time)
             
             img = img.to(device)
             time = time.to(device)
             noise = noise.to(device)
+            label = label.to(device)
+            
             optimizer.zero_grad()
-            loss = mse_loss(model(img, time), img)
+            loss = mse_loss(model(img, label, time), img)
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
@@ -51,14 +57,15 @@ def train_diffusion(
         with torch.no_grad():
             model.eval()
             val_loss = 0
-            for img, time in val_loader:
+            for img, label in val_loader:
+                time = get_time(timesteps, len(img))
                 img, noise = scheduler(img, time)
                 
                 img = img.to(device)
                 time = time.to(device)
                 noise = noise.to(device)
 
-                loss = mse_loss(model(img, time), img)
+                loss = mse_loss(model(img, label, time), img)
                 val_loss += loss.item()
 
             val_loss /= len(val_loader)
@@ -98,3 +105,6 @@ def train_diffusion(
             test_loss /= len(test_loader)
             print(f'Test Loss: {test_loss}')
     
+
+def get_time(timesteps, batch_size):
+    return torch.randint(0, timesteps, (batch_size,))
