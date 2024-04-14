@@ -110,7 +110,7 @@ class UNet(nn.Module):
 
         enc_t = timestep.unsqueeze(-1).type(torch.float)
         enc_t = self.pos_encoding(enc_t, self.embed_dim)
-        enc_l = self.label_encoding(label,self.embed_dim)
+        enc_l = self.label_encoding(label,self.embed_dim).to('cuda:0')
         encoding = enc_l + enc_t
     
         # Encoder
@@ -145,5 +145,5 @@ class UNet(nn.Module):
 
     def label_encoding(self, label, embed_dim):
         return torch.nn.functional.interpolate(
-            label.unsqueeze(1).float(), size=embed_dim, mode='linear', align_corners=False, device="cuda:0"
+            label.unsqueeze(1).float(), size=embed_dim, mode='linear', align_corners=False
         ).squeeze(1)
