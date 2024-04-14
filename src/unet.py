@@ -86,7 +86,7 @@ class UNet(nn.Module):
         # Output
         self.out = nn.Conv2d(64, out_channels, kernel_size=1)
 
-    def forward(self, x, timestep):
+    def forward(self, x, label, timestep):
         # Encoder
         x1 = self.layer1(x)
         x2 = self.down1(x1)
