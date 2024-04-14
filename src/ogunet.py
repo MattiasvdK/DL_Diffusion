@@ -106,4 +106,3 @@ class UNet(nn.Module):
         # Output
         x = self.out(x)
         return x
-    

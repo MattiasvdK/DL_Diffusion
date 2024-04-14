@@ -4,7 +4,6 @@ import numpy as np
 import torchvision as tv
 import torchvision.transforms.v2 as tfv2
 import os
-from noise import CosineScheduler
 import PIL
 
 def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=500, shuffle=True):
@@ -12,15 +11,9 @@ def get_data_loaders(train_dir, val_dir, test_dir, batch_size, timesteps=500, sh
     val_dataset = CocoDataset(val_dir, timesteps)
     test_dataset = CocoDataset(test_dir, timesteps)
 
-    # Subset of train dataset
-    train_size = int(0.5 * len(train_dataset))
-
-    # Split the train dataset into training and validation subsets
-    train_subset, remaining_subset = tud.random_split(train_dataset, [train_size, len(train_dataset) - train_size])
-
-    train_loader = tud.DataLoader(train_subset, batch_size=batch_size, shuffle=shuffle)
-    val_loader = tud.DataLoader(val_dataset, batch_size=batch_size, shuffle=shuffle)
-    test_loader = tud.DataLoader(test_dataset, batch_size=batch_size, shuffle=shuffle)
+    train_loader = tud.DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
+    val_loader = tud.DataLoader(val_dataset, batch_size=1, shuffle=shuffle)
+    test_loader = tud.DataLoader(test_dataset, batch_size=1, shuffle=shuffle)
 
     return train_loader, val_loader, test_loader
 
