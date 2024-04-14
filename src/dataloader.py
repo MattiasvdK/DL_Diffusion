@@ -49,3 +49,25 @@ class CocoDataset(tud.Dataset):
 
     def __iter__(self):
         return self
+
+def one_hot_encode(labels, num_classes):
+    return np.eye(num_classes)[labels]
+
+def get_cifar_loaders(batch_size, root='./data', shuffle=True):
+    train_dataset = tv.datasets.CIFAR100(root=root, train=True, download=True, transform=tv.transforms.Compose([
+        tv.transforms.ToTensor(),
+        tv.transforms.Lambda(lambda x: x * 2 - 1)
+    ]),
+    target_transform=tv.transforms.Lambda(lambda x: one_hot_encode(x, 100))
+    )
+    val_dataset = tv.datasets.CIFAR100(root=root, train=False, download=True, transform=tv.transforms.Compose([
+        tv.transforms.ToTensor(),
+        tv.transforms.Lambda(lambda x: x * 2 - 1)
+    ]),
+    target_transform=tv.transforms.Lambda(lambda x: one_hot_encode(x, 100))
+    )
+
+    train_loader = tud.DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
+    val_loader = tud.DataLoader(val_dataset, batch_size=1, shuffle=shuffle)
+
+    return train_loader, val_loader
