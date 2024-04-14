@@ -145,5 +145,5 @@ class UNet(nn.Module):
 
     def label_encoding(self, label, embed_dim):
         return torch.nn.functional.interpolate(
-            label.unsqueeze(1).float(), size=embed_dim, mode='linear', align_corners=False
+            label.unsqueeze(1).float(), size=embed_dim, mode='linear', align_corners=False, device="cuda:0"
         ).squeeze(1)
