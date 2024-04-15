@@ -17,7 +17,7 @@ def main():
         "/root/DL_Diffusion/dataset/test2014",
         "/root/DL_Diffusion/dataset/val2014/",
         "/root/DL_Diffusion/dataset/test2014/",
-        batch_size=256,
+        batch_size=128,
         )
     train_diffusion(
         model=model,
