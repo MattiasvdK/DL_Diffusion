@@ -9,20 +9,30 @@ class DiffusionSampler(NoiseSampler):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model = model.to(self.device)
 
-    def __call__(self, shape=(4, 3, 256, 256)):
+    def __call__(self, shape=(4, 3, 256, 256), classes=100):
+        # Add classes to shape
+        shape = (classes, shape[0], shape[1], shape[2], shape[3])
+        
         img = torch.randn(shape, device=self.device)
-
-        batches = shape[0]
+        
+        batches = shape[1]
         imgs = []
         with torch.no_grad():
-            for time in reversed(range(self.timesteps)):
-                img = self._sample_model(
-                    img, torch.full((batches,), time, dtype=torch.long, device=self.device), time
-                )
-                imgs.append(img.cpu().detach().numpy())
+            for cls in range(classes):
+                print(f'Generating samples for class {cls}')
+                cls_tensor = torch.tensor(
+                    np.eye(classes)[cls], dtype=torch.long, device=self.device
+                ).unsqueeze(0).repeat(batches, 1)
+
+                for time in reversed(range(self.timesteps)):
+                    img[cls] = self._sample_model(
+                        img[cls], torch.full((batches,), time, dtype=torch.long, device=self.device),
+                        time, cls_tensor
+                    )
+                imgs.append(img[cls].cpu().detach().numpy())
         return np.array(imgs)
 
-    def _sample_model(self, img, timestep, time_idx):
+    def _sample_model(self, img, timestep, time_idx, cls):
         
         betas_t = self._obtain(self.betas, timestep, img.shape)
         alpha_sqrt_minus_t = self._obtain(
@@ -32,7 +42,7 @@ class DiffusionSampler(NoiseSampler):
             self.alphas_recip_sqrt, timestep, img.shape
         )
 
-        means = self.model(img, time_idx)
+        means = self.model(img, cls, timestep)
         model_mean = alpha_recip_sqrt_t * (
             img - betas_t * means / alpha_sqrt_minus_t
         )

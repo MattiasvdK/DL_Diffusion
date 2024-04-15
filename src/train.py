@@ -47,7 +47,7 @@ def train_diffusion(
             label = label.to(device)
             
             optimizer.zero_grad()
-            loss = mse_loss(model(img, label, time), img)
+            loss = mse_loss(model(img, label, time), noise)
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
@@ -65,7 +65,7 @@ def train_diffusion(
                 time = time.to(device)
                 noise = noise.to(device)
 
-                loss = mse_loss(model(img, label, time), img)
+                loss = mse_loss(model(img, label, time), noise)
                 val_loss += loss.item()
 
             val_loss /= len(val_loader)
@@ -99,7 +99,8 @@ def train_diffusion(
                 img = img.to(device)
                 time = time.to(device)
                 noise = noise.to(device)
-                loss = mse_loss(model(img, time), img)
+                
+                loss = mse_loss(model(img, time), noise)
                 test_loss += loss.item()
             
             test_loss /= len(test_loader)

@@ -52,6 +52,7 @@ class Upscale(nn.Module):
     def __init__(self, in_channels, out_channels, emb_dim=256):
         super(Upscale, self).__init__()
         self.up = nn.ConvTranspose2d(in_channels, out_channels, kernel_size=2, stride=2)
+        #self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False)
         self.conv = DoubleConv(in_channels, out_channels)
 
         self.emb_layer = nn.Sequential(
@@ -88,23 +89,19 @@ class UNet(nn.Module):
         super(UNet, self).__init__()
         self.embed_dim = embed_dim
         # Encoder
-        self.layer1 = DoubleConv(3, 64)
-        self.down1 = Downscale(64, 128, embed_dim)
-        self.down2 = Downscale(128, 256, embed_dim)
-        self.down3 = Downscale(256, 512, embed_dim)
-        #self.down4 = Downscale(512, 1024)
-
-        # Bottleneck
-        self.bottleneck = DoubleConv(512, 512)
+        self.layer1 = DoubleConv(3, 32)
+        self.down1 = Downscale(32, 64, embed_dim)
+        self.down2 = Downscale(64, 128, embed_dim)
+        self.down3 = Downscale(128, 256, embed_dim)
+        self.down4 = Downscale(256, 512, embed_dim)
         
-        # Decoder
-        #self.up1 = Upscale(1024, 512)
-        self.up2 = Upscale(512, 256, embed_dim)
-        self.up3 = Upscale(256, 128, embed_dim)
-        self.up4 = Upscale(128, 64, embed_dim)
+        self.up1 = Upscale(512, 256, embed_dim)
+        self.up2 = Upscale(256, 128, embed_dim)
+        self.up3 = Upscale(128, 64, embed_dim)
+        self.up4 = Upscale(64, 32, embed_dim)
 
         # Output
-        self.out = nn.Conv2d(64, out_channels, kernel_size=1)
+        self.out = nn.Conv2d(32, out_channels, kernel_size=1)
 
     def forward(self, x, label, timestep):
 
@@ -112,19 +109,16 @@ class UNet(nn.Module):
         enc_t = self.pos_encoding(enc_t, self.embed_dim)
         enc_l = self.label_encoding(label,self.embed_dim).to('cuda:0')
         encoding = enc_l + enc_t
-    
+
         # Encoder
         x1 = self.layer1(x)
         x2 = self.down1(x1, encoding)
         x3 = self.down2(x2, encoding)
-        x = self.down3(x3, encoding)
-        #x5 = self.down4(x4)
-
-        # Bottleneck
-        x = self.bottleneck(x)
+        x4 = self.down3(x3, encoding)
+        x = self.down4(x4, encoding)
 
         # Decoder
-        #x = self.up1(x, x4)
+        x = self.up1(x, x4, encoding)
         x = self.up2(x, x3, encoding)
         x = self.up3(x, x2, encoding)
         x = self.up4(x, x1, encoding)
