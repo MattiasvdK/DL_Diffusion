@@ -47,12 +47,18 @@ class DiffusionSampler(NoiseSampler):
             img - betas_t * means / alpha_sqrt_minus_t
         )
         if time_idx == 0:
-            return model_mean
+            noise = torch.zeros_like(img).to(self.device)
+        else:
+            noise = self._gaussian_noise(img.shape).to(self.device)
 
         posterior_variance_t = self._obtain(
             self.posterior_variance, timestep, img.shape
         )
-        noise = self._gaussian_noise(img.shape).to(self.device)
+        
+        img = model_mean + torch.sqrt(posterior_variance_t) * noise
 
-        return model_mean + torch.sqrt(posterior_variance_t) * noise
+        #img = (img.clamp(-1, 1))
+        return img
+
+
 

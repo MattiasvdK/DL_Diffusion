@@ -25,7 +25,7 @@ def main():
         timesteps=timesteps,
         epochs=1000,
         log_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\logs\\log.csv",
-        save_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model.pt",
+        save_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model",
     )
     
 if __name__ == "__main__":

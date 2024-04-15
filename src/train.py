@@ -73,13 +73,15 @@ def train_diffusion(
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
                 early_stopping_counter = 0
+                best_epoch = epoch
                 if save_path is not None:
-                    torch.save(model.state_dict(), save_path)
+                    torch.save(model.state_dict(), save_path + "_best.pt")
             else:
                 early_stopping_counter += 1
                 if early_stopping_counter >= early_stopping:
                     print(f'--- Early Stop @ {epoch} ---')
                     break
+            torch.save(model.state_dict(), save_path + "_last.pt")
 
         if log_path is not None:
             with open(log_path, "a") as log_file:
@@ -88,6 +90,7 @@ def train_diffusion(
         print(f'Epoch: {epoch}')
         print(f'Train Loss: {train_loss}')
         print(f'Validation Loss: {val_loss}', end='\n\n')
+    print(f'Best Validation Loss: {best_val_loss} @ epoch {best_epoch}')
 
     if test_loader is not None:
         with torch.no_grad():
@@ -99,7 +102,7 @@ def train_diffusion(
                 img = img.to(device)
                 time = time.to(device)
                 noise = noise.to(device)
-                
+
                 loss = mse_loss(model(img, time), noise)
                 test_loss += loss.item()
             

@@ -19,21 +19,22 @@ def main():
 
     fig, ax = plt.subplots(10, 10)
 
+
     transforms = tfv2.Compose([
-        tfv2.Lambda(lambda x: x * 0.5 + 0.5),
+        tfv2.Lambda(lambda x: x.clamp(-1, 1)),
+        tfv2.Lambda(lambda x: (x + 1) / 2),
         tfv2.Lambda(lambda x: x * 255),
-        tfv2.Lambda(lambda x: x.astype(np.uint8)),
-        tfv2.ToPILImage()
+        tfv2.Lambda(lambda x: x.type(torch.uint8)),
     ])
 
     print(imgs[0][0])
 
     for row in range(10):
         for col in range(10):
-            ax[row, col].imshow(imgs[row * 10 + col][0].transpose(1, 2, 0) * 0.5 + 0.5)
+            img = transforms(imgs[row * 10 + col][0]).transpose(1, 2, 0)
+            ax[row, col].imshow(img)
             ax[row, col].axis('off')
     fig.tight_layout()
-    fig.suptitle("Diffusion samples", fontsize=16)
     plt.show(block=True)
 
 
