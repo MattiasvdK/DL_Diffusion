@@ -15,8 +15,8 @@ def train_diffusion(
         train_loader,
         val_loader,
         test_loader=None,
-        epochs=100,
-        early_stopping=10,
+        epochs=500,
+        early_stopping=500,
         optimizer=Adam,
         learning_rate=1e-3,
         weight_decay=0,
@@ -95,6 +95,9 @@ def train_diffusion(
                     print(f'--- Early Stop @ {epoch + 1} ---')
                     break
 
+        if save_path is not None:
+            torch.save(model.state_dict(), save_path)
+        
         if log_path is not None:
             with open(log_path, "a") as log_file:
                 log_file.write(f"{epoch + 1},{train_loss},{val_loss}\n")

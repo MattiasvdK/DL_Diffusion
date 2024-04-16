@@ -25,7 +25,6 @@ def main():
         train_loader=train_loader,
         val_loader=val_loader,
         test_loader=test_loader,
-        early_stopping=5,
         log_path="/root/DL_Diffusion/results/log.csv",
         save_path="/root/DL_Diffusion/results/model.pt",
     )
