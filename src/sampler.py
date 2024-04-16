@@ -29,7 +29,7 @@ class DiffusionSampler(NoiseSampler):
                         img[cls], torch.full((batches,), time, dtype=torch.long, device=self.device),
                         time, cls_tensor
                     )
-                imgs.append(img[cls].cpu().detach().numpy())
+                imgs.append(img[cls].cpu().numpy())
         return np.array(imgs)
 
     def _sample_model(self, img, timestep, time_idx, cls):
@@ -57,7 +57,7 @@ class DiffusionSampler(NoiseSampler):
         
         img = model_mean + torch.sqrt(posterior_variance_t) * noise
 
-        #img = (img.clamp(-1, 1))
+        img = (img.clamp(-1, 1))
         return img
 
 

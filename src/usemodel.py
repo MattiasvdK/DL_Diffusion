@@ -11,13 +11,15 @@ import torchvision.transforms.v2 as tfv2
 def main():
 
     model = UNet(out_channels=3)
-    model.load_state_dict(torch.load("C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model.pt"))
+    model.load_state_dict(torch.load("C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model_last.pt"))
     model.eval()
     sampler = DiffusionSampler(model, timesteps=1000)
 
     imgs = sampler(shape=(1, 3, 32, 32), classes=100)
 
     fig, ax = plt.subplots(10, 10)
+
+    
 
 
     transforms = tfv2.Compose([

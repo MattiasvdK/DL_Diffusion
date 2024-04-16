@@ -20,10 +20,10 @@ def main():
         scheduler=CosineScheduler(timesteps=timesteps),
         train_loader=train_loader,
         val_loader=val_loader,
-        early_stopping=500,
+        early_stopping=2000,
         learning_rate=1e-3,
         timesteps=timesteps,
-        epochs=1000,
+        epochs=2000,
         log_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\logs\\log.csv",
         save_path="C:\\Users\\matti\\OneDrive\\Documents\\Universiteit\\Ms\\Y1\\Q3\\DL\\Project\\DL_Diffusion\\models\\model",
     )
